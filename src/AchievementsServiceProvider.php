@@ -22,7 +22,6 @@ class AchievementsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/Migrations');
         if ($this->app->runningInConsole()) {
             $this->commands(
                 [
@@ -47,6 +46,11 @@ class AchievementsServiceProvider extends ServiceProvider
             ],
             'migrations'
         );
+
+        if (config('achievements.load_migrations', true)) {
+            $this->loadMigrationsFrom(__DIR__ . '/Migrations');
+        }
+
         $this->mergeConfigFrom(__DIR__ . '/config/achievements.php', 'achievements');
     }
 
